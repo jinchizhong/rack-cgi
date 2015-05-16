@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo Status: 302
+echo Location: http://www.google.com
+echo
+
