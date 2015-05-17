@@ -19,7 +19,7 @@ module Rack
       end
 
       @index = @opts[:index] || []
-      @index = [@index] if not @index.is_a? Hash
+      @index = [@index] if not @index.is_a? Array
     end
 
     def solve_path path
