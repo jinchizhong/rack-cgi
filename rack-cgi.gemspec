@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name         = 'rack-cgi'
-  s.version      = '0.1'
+  s.version      = '0.2'
   s.date         = '2015-05-17'
   s.summary      = 'A rack middleware that can call CGI in rack'
   s.description  = 'A rack middleware that can call CGI in rack'
