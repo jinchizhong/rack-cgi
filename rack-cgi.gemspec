@@ -10,4 +10,10 @@ Gem::Specification.new do |s|
                       %w(rack-cgi.gemspec)
   s.homepage     = 'http://rubygems.org/gems/rack-cgi'
   s.license      = 'BSD'
+
+  s.add_runtime_dependency 'rake'
+  s.add_runtime_dependency 'childprocess'
+
+  s.add_development_dependency 'test-unit'
+  s.add_development_dependency 'rake-test'
 end
