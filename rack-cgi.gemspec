@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'A rack middleware that can call CGI in rack'
   spec.description   = 'A rack middleware that can call CGI in rack'
-  spec.homepage      = 'http://rubygems.org/gems/rack-cgi'
+  spec.homepage      = 'https://github.com/jinchizhong/rack-cgi'
   spec.license       = 'BSD'
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
