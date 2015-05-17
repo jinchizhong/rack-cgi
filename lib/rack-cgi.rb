@@ -1,5 +1,4 @@
 require 'childprocess'
-require 'byebug'
 
 module Rack
   class CGI
