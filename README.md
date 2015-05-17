@@ -64,6 +64,38 @@ You can use following code to open this feature.
 
     use Rack::CGI, ..., dir_redirect: true, ...
 
+### Use Rack::CGI in Rails project
+
+Originally I intended to write a project named rails-cgi.
+But it's so trouble, and run Rack app in rails is not very complex.
+So I give up rails-cgi.
+
+1. Create a cgi controller
+
+    $ rails g controller cgi
+
+2. Create a Rack Application in CgiController
+
+    # You can changed arguments as you want
+    CGI = Rack::Builder.new do
+      use Rack::CGI, cgi_path: 'cgi', index: ['index.cgi', 'index.php'], Rack::CGI::Executable => '', /\.php$/ => '/usr/bin/php-cgi'
+      use Rack::Static, urls: ['/'], root: 'cgi'
+      run proc{ |env| raise ActionController::RoutingError, env['PATH_INFO'] + " not found!" }
+    end
+
+3. Call Rack App in rails controller
+
+    # add an action to controller
+    def cgi
+      [self.status, self.response.headers, self.response_body] = CGI.call env
+    end
+    # of course, you can add decoration code here, such as call rails layout
+
+4. Add route
+
+    # add follow to config/routes.rb
+    get '/cgi-bin/*path' => 'cgi#cgi'
+
 TODO
 ----
 
