@@ -84,11 +84,11 @@ Create a Rack Application in CgiController
 
 Call Rack App in rails controller
 
-# add an action to controller
-def cgi
-  [self.status, self.response.headers, self.response_body] = CGI.call env
-end
-# of course, you can add decoration code here, such as call rails layout
+    # add an action to controller
+    def cgi
+      [self.status, self.response.headers, self.response_body] = CGI.call env
+    end
+    # of course, you can add decoration code here, such as call rails layout
 
 Add route
 
