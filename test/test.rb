@@ -7,6 +7,10 @@ require 'rack/test'
 class RackCgiTest < Test::Unit::TestCase
   include Rack::Test::Methods
 
+  def setup
+    Dir.chdir File.dirname(File.expand_path(__FILE__))
+  end
+
   def app
     s, c = Rack::Builder.parse_file "./config.ru"
     s
