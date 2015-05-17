@@ -160,6 +160,15 @@ module Rack
         report_error code, out, err, cgi_env
       end
     end
+    def run(env, rule, path)
+      cgi_env = cgi_env(env, path)
+      code, out, err = run_cgi rule, path, cgi_env
+      if code == 0
+        parse_output out
+      else
+        report_error code, out, err, cgi_env
+      end
+    end
   end
 end
 
