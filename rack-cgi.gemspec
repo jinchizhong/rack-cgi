@@ -1,19 +1,37 @@
-Gem::Specification.new do |s|
-  s.name         = 'rack-cgi'
-  s.version      = '0.2'
-  s.date         = '2015-05-17'
-  s.summary      = 'A rack middleware that can call CGI in rack'
-  s.description  = 'A rack middleware that can call CGI in rack'
-  s.authors      = ['Chizhong Jin']
-  s.email        = 'jinchizhong@kingsoft.com'
-  s.files        = Dir['{lib/*,lib/**/*,test/*,test/**/*}'] + 
-                      %w(rack-cgi.gemspec)
-  s.homepage     = 'http://rubygems.org/gems/rack-cgi'
-  s.license      = 'BSD'
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'rack/cgi/version'
 
-  s.add_runtime_dependency 'rake'
-  s.add_runtime_dependency 'childprocess'
+Gem::Specification.new do |spec|
+  spec.name          = "rack-cgi"
+  spec.version       = Rack::Cgi::VERSION
+  spec.authors       = ["Chizhong Jin"]
+  spec.email         = ["jinchizhong@kingsoft.com"]
 
-  s.add_development_dependency 'test-unit'
-  s.add_development_dependency 'rake-test'
+  spec.summary       = 'A rack middleware that can call CGI in rack'
+  spec.description   = 'A rack middleware that can call CGI in rack'
+  spec.homepage      = 'http://rubygems.org/gems/rack-cgi'
+  spec.license       = 'BSD'
+
+  # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
+  # delete this section to allow pushing this gem to any host.
+  if spec.respond_to?(:metadata)
+    spec.metadata['allowed_push_host'] = "http://mygemserver.com"
+  else
+    raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
+  end
+
+  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.bindir        = "exe"
+  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.require_paths = ["lib"]
+
+  spec.add_runtime_dependency 'rake'
+  spec.add_runtime_dependency 'childprocess'
+
+  spec.add_development_dependency "bundler", "~> 1.9"
+  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency 'test-unit'
+  spec.add_development_dependency 'rake-test'
 end
