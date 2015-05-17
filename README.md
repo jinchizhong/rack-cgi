@@ -42,16 +42,16 @@ You can special multiple rules, in follow format:
 
     use Rack::CGI, match1 => deal1, match2 => deal2, match3 => deal3 ...
 
-`match` can not Rack::CGI::Executable or Regexp. 
-Rack::CGI::Executable means script file with '+x' property.
-Regexp will try to match scriptname.
+`match` can be Rack::CGI::Executable or Regexp.  
+Rack::CGI::Executable match all script that is executable.  
+Regexp will try to match script full path.
 
 If none rules match, Rack::CGI will do nothing. Such as if you spacial Rack::CGI::Executable => "", 
-and your file do not have a '+x' property, Rack::CGI will not tell you file cannot executable, but just skiped.
+and your file is not executable, Rack::CGI will not tell you file cannot executable, but just skiped.
 
-`deal` can be `nil`, "", `path_to_application`.  
-If you special `nil`, nothing will happened.  
-If you special "", script will be runned directly.  
+`deal` can be `nil`, `""`, `path_to_application`.  
+If you special `nil`, nothing will happened, as if not matched.  
+If you special `""`, script will be launched directly. Ensure script is executable.  
 If you special `path_to_application`, application will be launched with script name.
 
 TODO
