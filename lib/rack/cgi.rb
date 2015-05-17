@@ -7,7 +7,7 @@ module Rack
         ::File.executable? rhs
       end
     end
-
+    
     def initialize app, args = {}
       @app = app
       @opts = args.select {|k, _| k.is_a? Symbol}
@@ -20,6 +20,8 @@ module Rack
 
       @index = @opts[:index] || []
       @index = [@index] if not @index.is_a? Array
+
+      @dir_redirect = @opts[:dir_redirect]
     end
 
     def solve_path path
@@ -27,7 +29,13 @@ module Rack
       if ::File.directory? path
         @index.each do |f|
           path2 = ::File.join(path, f)
-          return path2 if ::File.file? path2
+          if ::File.file? path2
+            if @dir_redirect and path !~ %r{/$}
+              throw :rack_cgi_result, [302, {'Location' => path + '/'}, [""]]
+            else
+              return path2
+            end
+          end
         end
       else
         return path if ::File.file? path
@@ -142,31 +150,35 @@ module Rack
     end
 
     def call(env)
-      path = solve_path env["PATH_INFO"]
-      if not path
-        return @app.call(env)
-      end
+      catch :rack_cgi_result do
+        path = solve_path env["PATH_INFO"]
+        if not path
+          return @app.call(env)
+        end
 
-      rule = match_cgi_rule path
-      if not rule
-        return @app.call(env)
-      end
+        rule = match_cgi_rule path
+        if not rule
+          return @app.call(env)
+        end
 
-      cgi_env = cgi_env(env, path)
-      code, out, err = run_cgi rule, path, cgi_env
-      if code == 0
-        parse_output out
-      else
-        report_error code, out, err, cgi_env
+        cgi_env = cgi_env(env, path)
+        code, out, err = run_cgi rule, path, cgi_env
+        if code == 0
+          parse_output out
+        else
+          report_error code, out, err, cgi_env
+        end
       end
     end
     def run(env, rule, path)
-      cgi_env = cgi_env(env, path)
-      code, out, err = run_cgi rule, path, cgi_env
-      if code == 0
-        parse_output out
-      else
-        report_error code, out, err, cgi_env
+      catch :rack_cgi_result do
+        cgi_env = cgi_env(env, path)
+        code, out, err = run_cgi rule, path, cgi_env
+        if code == 0
+          parse_output out
+        else
+          report_error code, out, err, cgi_env
+        end
       end
     end
   end

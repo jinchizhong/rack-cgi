@@ -73,4 +73,14 @@ class RackCgiTest < Test::Unit::TestCase
     get '/without_header'
     assert_equal res.body, "Hello world\n"
   end
+
+  def test_dir_redirect
+    get '/something'
+    assert_equal res.status, 302
+  end
+
+  def test_no_redirect_without_index
+    get '/nothing'
+    assert_equal res.status, 404
+  end
 end

@@ -54,6 +54,16 @@ If you special `nil`, nothing will happened, as if not matched.
 If you special `""`, script will be launched directly. Ensure script is executable.  
 If you special `path_to_application`, application will be launched with script name.
 
+### Directory redirect
+
+In some programs(such as phpBB), when you visit a dir without ending '/'. (Such as 'http://wps-community.org/forum')
+All relative resource will cannot accessed. In this case, we have to redirect 'http://wps-community.org/forum' to 
+'http://wps-community.org/forum/' to avoid this problem.
+
+You can use following code to open this feature.
+
+    use Rack::CGI, ..., dir_redirect: true, ...
+
 TODO
 ----
 
